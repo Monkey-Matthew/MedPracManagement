@@ -5,25 +5,25 @@ namespace CLI.MedPracManagement
 {
     public class Patient
     {
-        private static int nextId = 100001;
+        private static int nextId = 100001; //Keeps track of the next patient's id
         private int patientId;
         private string? name;
         private string? address;
         private DateTime birthdate;
-        private List<string> race = new List<string>();
+        private List<string> race = new List<string>(); //List that stores all the races that the patient is
         private string? gender;
-        private List<string> patientDiagnoses = new List<string>();
-        private List<string> patientPrescriptions = new List<string>();
+        private List<string> patientDiagnoses = new List<string>(); //List that stores all the diagnoses the patient has
+        private List<string> patientPrescriptions = new List<string>(); //List that stores all the prescriptions the patient has
 
-        public Patient()
+        public Patient() //Patient Constructor
         {
-            patientId = nextId++;
+            patientId = nextId++; //Sets for current patient and increments for the next patient
             Console.Write("What is the patient's full name?: ");
             name = Console.ReadLine();
             Console.Write("What is the patient's address?: ");
             address = Console.ReadLine();
             Console.Write("What is the patient's birthdate? Ex:(yyyy-mm-dd): ");
-            while(DateTime.TryParse(Console.ReadLine(), out birthdate) == false)
+            while(DateTime.TryParse(Console.ReadLine(), out birthdate) == false) //Tries to parse the input into DateTime, if the format isn't valid then it prompts the user to try again
             {
                 Console.WriteLine("Invalid format! Please Try Again");
                 Console.Write("What is the patient's birthdate? Ex:(yyyy-mm-dd): ");
@@ -31,7 +31,7 @@ namespace CLI.MedPracManagement
             displayRaceOptions();
             string? raceChoice = Console.ReadLine();
 
-            if (!string.IsNullOrEmpty(raceChoice))
+            if (!string.IsNullOrEmpty(raceChoice)) //If the raceChoice input is not empty then it splits the string and adds it to the patients race List.
             {
                 int[] words = raceChoice.Split(',')
                                         .Select(s => int.Parse(s.Trim()) - 1)
@@ -50,7 +50,7 @@ namespace CLI.MedPracManagement
             Console.WriteLine("Does the patient have any known diagnoses? (if none enter none, if so enter each diagnos with commas in-between each one)");
             Console.Write("Diagnoses: ");
             string? diagnosesInput = Console.ReadLine();
-            if (!string.IsNullOrEmpty(diagnosesInput))
+            if (!string.IsNullOrEmpty(diagnosesInput)) //If diagnoses input is not null, it adds the splits the string and adds it to the patient diagnoses List.
             {
                 string[] diagnoses = diagnosesInput.Split(",");
 
@@ -67,7 +67,7 @@ namespace CLI.MedPracManagement
             Console.WriteLine("Does the patient have any know prescriptions? (if none enter none, if so enter each prescription with commas in-between each one)");
             Console.Write("Prescriptions: ");
             string? prescriptionsInput = Console.ReadLine();
-            if (!string.IsNullOrEmpty(prescriptionsInput))
+            if (!string.IsNullOrEmpty(prescriptionsInput)) //If prescriptions input is not null, it adds the splits the string and adds it to the patient prescriptions List.
             {
                 string[] prescriptions = prescriptionsInput.Split(",");
 
@@ -82,7 +82,7 @@ namespace CLI.MedPracManagement
             Console.WriteLine("The patient's id is " + patientId);
 
         }
-        public void PrintInfo()
+        public void PrintInfo() //Prints the patients information
         {
             Console.WriteLine();
             Console.WriteLine("PATIENT INFO<>");
@@ -97,19 +97,19 @@ namespace CLI.MedPracManagement
             Console.WriteLine("Patient Prescriptions: " + string.Join(", ", patientPrescriptions));
         }
 
-        public int GetId()
+        public int GetId() //Grabs the id for the patient
         {
             return patientId;
         }
 
-        private static readonly List<string> raceOptions = new()
+        private static readonly List<string> raceOptions = new() //Creates and intializes a readonly list of race options
         {
             "White", "Black or African American", "Asian",
             "Native American or Alaska Native", "Native Hawaiian or Other Pacific Islander",
             "Other / Prefer not to say"
         };
 
-        static void displayRaceOptions()
+        static void displayRaceOptions() //Displays the race options to the user
         {
             Console.WriteLine("What is the patient's race/ethnicity?");
             for (int i = 0; i < raceOptions.Count; i++)
@@ -119,7 +119,7 @@ namespace CLI.MedPracManagement
             Console.Write("Patient's race (you can choose multiple, separated by commas): ");
         }
 
-        static void displayGenderOptions()
+        static void displayGenderOptions() //Displays the race options to the user
         {
             Console.WriteLine("What is the patient's gender?");
             Console.WriteLine("1. Male");
@@ -129,11 +129,11 @@ namespace CLI.MedPracManagement
             Console.Write("Patient's gender: ");
         }
 
-        static string? chooseGender()
+        static string? chooseGender() //Assigns the gender based on the input given by the user
         {
             int genderChoice;
             string? genderInput = Console.ReadLine();
-            while (int.TryParse(genderInput, out genderChoice) == false || genderChoice < 1 || genderChoice > 4)
+            while (int.TryParse(genderInput, out genderChoice) == false || genderChoice < 1 || genderChoice > 4) //Checks to see if the input is valid 
             {
                 Console.WriteLine("Invalid Option! Please Try Again");
                 displayGenderOptions();
@@ -158,4 +158,3 @@ namespace CLI.MedPracManagement
     }
 }
 
-//Add Comments next to everything

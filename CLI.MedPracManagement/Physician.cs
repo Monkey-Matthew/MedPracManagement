@@ -58,6 +58,13 @@ namespace CLI.MedPracManagement
         public void ReadPhysician()
         {
             Console.WriteLine("Physician's Name: " + physicianName);
+            Console.WriteLine("Physician's Number: " + physicianNumber);
+            Console.WriteLine("Physician's Grad Date: " + graduationDate);
+            Console.Write("Physician's Specializations: ");
+            foreach (string specialization in physicianSpecializations)
+            {
+                Console.Write($"{specialization} ");
+            }
         }
 
     

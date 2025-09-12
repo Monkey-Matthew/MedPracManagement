@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CLI.MedPracManagement
 {
@@ -77,6 +78,75 @@ namespace CLI.MedPracManagement
         {
             return physicianName;
 
+        }
+
+        // --- Update Methods ---
+        public void UpdateName()
+        {
+            Console.Write("Enter new physician name: ");
+            string? input = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                physicianName = input;
+                Console.WriteLine("Physician name updated!");
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Name not changed.");
+            }
+        }
+
+        public void UpdateNumber()
+        {
+            Console.Write("Enter new physician number: ");
+            string? input = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                physicianNumber = input;
+                Console.WriteLine("Physician number updated!");
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Number not changed.");
+            }
+        }
+
+        public void UpdateGraduationDate()
+        {
+            Console.Write("Enter new graduation date (yyyy-MM-dd): ");
+            string? input = Console.ReadLine();
+            if (DateTime.TryParse(input, out DateTime newDate))
+            {
+                graduationDate = newDate;
+                Console.WriteLine("Graduation date updated!");
+            }
+            else
+            {
+                Console.WriteLine("Invalid date. Graduation date not changed.");
+            }
+        }
+
+        public void UpdateSpecializations()
+        {
+            Console.Write("Enter new specializations (comma-separated, or 'none'): ");
+            string? input = Console.ReadLine();
+            if (!string.IsNullOrEmpty(input))
+            {
+                physicianSpecializations.Clear();
+                if (input.ToLower().Trim() == "none")
+                {
+                    physicianSpecializations.Add("None");
+                }
+                else
+                {
+                    physicianSpecializations.AddRange(input.Split(',').Select(s => s.Trim()));
+                }
+                Console.WriteLine("Specializations updated!");
+            }
+            else
+            {
+                Console.WriteLine("No input. Specializations not changed.");
+            }
         }
     }
 }

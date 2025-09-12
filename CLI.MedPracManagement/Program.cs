@@ -23,10 +23,13 @@ namespace CLI.MedPracManagement
                 Console.WriteLine("Option 4: Review a patient's information");
                 Console.WriteLine("Option 5: Review a physician's information");
                 Console.WriteLine("Option 6: Review an appointment");
-                Console.WriteLine("Option 7: Delete a patient");
-                Console.WriteLine("Option 8: Delete a physician");
-                Console.WriteLine("Option 9: Delete an appointment");
-                Console.WriteLine("Option 10: Quit Program");
+                Console.WriteLine("Option 7: Update a patient's information");
+                Console.WriteLine("Option 8: Update a physician's information");
+                Console.WriteLine("Option 9: Update an appointment's information");
+                Console.WriteLine("Option 10: Delete a patient");
+                Console.WriteLine("Option 11: Delete a physician");
+                Console.WriteLine("Option 12: Delete an appointment");
+                Console.WriteLine("Option 13: Quit Program");
                 Console.WriteLine("-------------------------------------------");
 
                 Console.Write("What option would you like?: ");
@@ -149,6 +152,100 @@ namespace CLI.MedPracManagement
                         break;
                     case 7:
                         patients.ForEach(Console.WriteLine);
+                        Console.Write("Enter patient ID to update: ");
+                        if (int.TryParse(Console.ReadLine(), out int updateId))
+                        {
+                            Patient? patientToUpdate = patients.FirstOrDefault(p => p.GetId() == updateId);
+                            if (patientToUpdate != null)
+                            {
+                                Console.WriteLine("Select the field to update:");
+                                Console.WriteLine("1. Name");
+                                Console.WriteLine("2. Address");
+                                Console.WriteLine("3. Birthdate");
+                                Console.WriteLine("4. Race");
+                                Console.WriteLine("5. Gender");
+                                Console.WriteLine("6. Diagnoses");
+                                Console.WriteLine("7. Prescriptions");
+
+                                string? choice = Console.ReadLine();
+                                switch (choice)
+                                {
+                                    case "1": patientToUpdate.UpdateName(); break;
+                                    case "2": patientToUpdate.UpdateAddress(); break;
+                                    case "3": patientToUpdate.UpdateBirthdate(); break;
+                                    case "4": patientToUpdate.UpdateRace(); break;
+                                    case "5": patientToUpdate.UpdateGender(); break;
+                                    case "6": patientToUpdate.UpdateDiagnoses(); break;
+                                    case "7": patientToUpdate.UpdatePrescriptions(); break;
+                                    default: Console.WriteLine("Invalid option."); break;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Patient not found.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid ID.");
+                        }
+                        break;
+                    case 8:
+                        physicians.ForEach(Console.WriteLine);
+                        Console.Write("Enter physician ID to update: ");
+                        if (int.TryParse(Console.ReadLine(), out int phyId))
+                        {
+                            var physician = physicians.FirstOrDefault(p => p.GetId() == phyId);
+                            if (physician != null)
+                            {
+                                Console.WriteLine("Select field to update:");
+                                Console.WriteLine("1. Name");
+                                Console.WriteLine("2. Number");
+                                Console.WriteLine("3. Graduation Date");
+                                Console.WriteLine("4. Specializations");
+
+                                string? choice = Console.ReadLine();
+                                switch (choice)
+                                {
+                                    case "1": physician.UpdateName(); break;
+                                    case "2": physician.UpdateNumber(); break;
+                                    case "3": physician.UpdateGraduationDate(); break;
+                                    case "4": physician.UpdateSpecializations(); break;
+                                    default: Console.WriteLine("Invalid choice."); break;
+                                }
+                            }
+                            else Console.WriteLine("Physician not found.");
+                        }
+                        else Console.WriteLine("Invalid input.");
+                        break;
+                    case 9:
+                        appointments.ForEach(a => Console.WriteLine(a.appointInfoCondensed(patients, physicians)));
+                        Console.Write("Enter appointment ID to update: ");
+                        if (int.TryParse(Console.ReadLine(), out int apptId))
+                        {
+                            var appt = appointments.FirstOrDefault(a => a.GetId() == apptId);
+                            if (appt != null)
+                            {
+                                Console.WriteLine("Select field to update:");
+                                Console.WriteLine("1. Patient");
+                                Console.WriteLine("2. Physician");
+                                Console.WriteLine("3. Appointment Date");
+
+                                string? choice = Console.ReadLine();
+                                switch (choice)
+                                {
+                                    case "1": appt.UpdatePatient(patients); break;
+                                    case "2": appt.UpdatePhysician(physicians, appointments); break;
+                                    case "3": appt.UpdateDate(appointments); break;
+                                    default: Console.WriteLine("Invalid choice."); break;
+                                }
+                            }
+                            else Console.WriteLine("Appointment not found.");
+                        }
+                        else Console.WriteLine("Invalid input.");
+                        break;
+                    case 10:
+                        patients.ForEach(Console.WriteLine);
                         Console.Write("Paitent to Delete (Id): ");
                         //get a seletion from the user
                         var patientSelection = Console.ReadLine();
@@ -165,7 +262,7 @@ namespace CLI.MedPracManagement
                             patients.Remove(patientToDelete);
                         }
                         break;
-                    case 8:
+                    case 11:
                         physicians.ForEach(Console.WriteLine);
                         Console.Write("Physicians to Delete (Id): ");
                         //get a seletion from the user
@@ -183,7 +280,7 @@ namespace CLI.MedPracManagement
                             physicians.Remove(physicianToDelete);
                         }
                         break;
-                    case 9:
+                    case 12:
                         appointments.ForEach(a => Console.WriteLine(a.appointInfoCondensed(patients, physicians)));
                         Console.Write("Appointments to Delete (Id): ");
                         //get a seletion from the user
@@ -201,7 +298,7 @@ namespace CLI.MedPracManagement
                             appointments.Remove(appointmentToDelete);
                         }
                         break;
-                    case 10: //Quits the program
+                    case 13: //Quits the program
                         Console.WriteLine("Quitting Program...");
                         return;
                     default: //Tells the user that the value that they inputted is not valid.

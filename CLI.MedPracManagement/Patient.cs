@@ -165,8 +165,103 @@ namespace CLI.MedPracManagement
         {
             return name;
         }
+
+        public void UpdateName()
+        {
+            Console.Write("Enter new patient name: ");
+            name = Console.ReadLine();
+        }
+
+        public void UpdateAddress()
+        {
+            Console.Write("Enter new patient address: ");
+            address = Console.ReadLine();
+        }
+
+        public void UpdateBirthdate()
+        {
+            Console.Write("Enter new patient birthdate (yyyy-mm-dd): ");
+            while (DateTime.TryParse(Console.ReadLine(), out birthdate) == false)
+            {
+                Console.WriteLine("Invalid format! Please Try Again");
+                Console.Write("Enter new patient birthdate (yyyy-mm-dd): ");
+            }
+        }
+
+        public void UpdateRace()
+        {
+            race.Clear();
+            displayRaceOptions();
+            string? raceChoice = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(raceChoice))
+            {
+                int[] words = raceChoice.Split(',')
+                                        .Select(s => int.Parse(s.Trim()) - 1)
+                                        .Where(i => i >= 0 && i < raceOptions.Count)
+                                        .ToArray();
+
+                foreach (int index in words)
+                {
+                    race.Add(raceOptions[index]);
+                }
+            }
+        }
+
+        public void UpdateGender()
+        {
+            displayGenderOptions();
+            gender = chooseGender();
+        }
+
+        public void UpdateDiagnoses()
+        {
+            patientDiagnoses.Clear();
+            Console.WriteLine("Enter updated diagnoses (if none enter 'none', otherwise separate with commas): ");
+            string? diagnosesInput = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(diagnosesInput))
+            {
+                if (diagnosesInput.Trim().ToLower() == "none")
+                {
+                    patientDiagnoses.Add("None");
+                }
+                else
+                {
+                    string[] diagnoses = diagnosesInput.Split(",");
+                    foreach (string diagnose in diagnoses)
+                    {
+                        patientDiagnoses.Add(diagnose.Trim());
+                    }
+                }
+            }
+        }
+
+        public void UpdatePrescriptions()
+        {
+            patientPrescriptions.Clear();
+            Console.WriteLine("Enter updated prescriptions (if none enter 'none', otherwise separate with commas): ");
+            string? prescriptionsInput = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(prescriptionsInput))
+            {
+                if (prescriptionsInput.Trim().ToLower() == "none")
+                {
+                    patientPrescriptions.Add("None");
+                }
+                else
+                {
+                    string[] prescriptions = prescriptionsInput.Split(",");
+                    foreach (string prescription in prescriptions)
+                    {
+                        patientPrescriptions.Add(prescription.Trim());
+                    }
+                }
+            }
+        }
+
     }
 
-    
+
 }
 

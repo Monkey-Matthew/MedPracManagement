@@ -6,7 +6,7 @@ namespace CLI.MedPracManagement
     public class Physician
     {
         private static int nextId = 1000001;
-        private int physicianId;
+        public int physicianId;
         private string? physicianName;
         private string? physicianNumber;
         private DateTime graduationDate;
@@ -67,7 +67,17 @@ namespace CLI.MedPracManagement
             }
         }
 
-    
+        public override string ToString()
+        {
+            return $"{physicianId}. {physicianName}";
+
+        }
+
+        public string GetName()
+        {
+            return physicianName;
+
+        }
     }
 }
 

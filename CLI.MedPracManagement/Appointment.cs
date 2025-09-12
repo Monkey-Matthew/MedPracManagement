@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CLI.MedPracManagement
 {
@@ -23,20 +25,35 @@ namespace CLI.MedPracManagement
             return appointId;
         }
 
-        public void PrintInfo() //Prints the appointment information
+        public void PrintInfo(List<Patient> patients, List<Physician> physicians)
         {
             Console.WriteLine();
             Console.WriteLine("Appointment Info<>");
-			Console.WriteLine("Appointment Id: " + appointId);
+            Console.WriteLine("Appointment Id: " + appointId);
             Console.WriteLine("Appointment Date: " + appointmentDate.ToString("MM/dd/yyyy"));
             Console.WriteLine("Appointment Time: " + appointmentDate.ToString("hh:mm tt"));
-            Console.WriteLine("Patient Name: ");
-			Console.WriteLine("Patient Id: " + patientId);
-			Console.WriteLine("Physician Name: ");
-			Console.WriteLine("Physician Id: " + physicianId);
+
+            // Lookup patient
+            Patient? patient = patients.FirstOrDefault(p => p.GetId() == patientId);
+            if (patient != null)
+                Console.WriteLine("Patient Name: " + patient.GetName());
+            else
+                Console.WriteLine("Patient not found");
+
+            Console.WriteLine("Patient Id: " + patientId);
+
+            // Lookup physician
+            Physician? physician = physicians.FirstOrDefault(d => d.GetId() == physicianId);
+            if (physician != null)
+                Console.WriteLine("Physician Name: " + physician.GetName());
+            else
+                Console.WriteLine("Physician not found");
+
+            Console.WriteLine("Physician Id: " + physicianId);
         }
 
-		public DateTime GetDate()
+
+        public DateTime GetDate()
 		{
 			return appointmentDate;
 		}
@@ -44,5 +61,14 @@ namespace CLI.MedPracManagement
         {
             return physicianId;
         }
+
+        public string appointInfoCondensed(List<Patient> patients, List<Physician> physicians)
+        {
+            string patientName = patients.FirstOrDefault(p => p.GetId() == patientId)?.GetName() ?? "Unknown";
+            string physicianName = physicians.FirstOrDefault(d => d.GetId() == physicianId)?.GetName() ?? "Unknown";
+
+            return $"ID:{appointId}. Patient: {patientName} | Physician: {physicianName} | Date: {appointmentDate:MM/dd/yyyy hh:mm tt}";
+        }
+
     }
 }

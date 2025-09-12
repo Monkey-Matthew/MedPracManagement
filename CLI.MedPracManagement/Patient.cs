@@ -6,7 +6,7 @@ namespace CLI.MedPracManagement
     public class Patient
     {
         private static int nextId = 100001; //Keeps track of the next patient's id
-        private int patientId;
+        public int patientId;
         private string? name;
         private string? address;
         private DateTime birthdate;
@@ -155,6 +155,18 @@ namespace CLI.MedPracManagement
             return "Prefer not to say";
         }
 
+        public override string ToString()
+        {
+            return $"{patientId}. {name}";
+
+        }
+
+        public string? GetName()
+        {
+            return name;
+        }
     }
+
+    
 }
 

@@ -23,7 +23,10 @@ namespace CLI.MedPracManagement
                 Console.WriteLine("Option 4: Review a patient's information");
                 Console.WriteLine("Option 5: Review a physician's information");
                 Console.WriteLine("Option 6: Review an appointment");
-                Console.WriteLine("Option 9: Quit Program");
+                Console.WriteLine("Option 7: Delete a patient");
+                Console.WriteLine("Option 8: Delete a physician");
+                Console.WriteLine("Option 9: Delete an appointment");
+                Console.WriteLine("Option 10: Quit Program");
                 Console.WriteLine("-------------------------------------------");
 
                 Console.Write("What option would you like?: ");
@@ -132,7 +135,7 @@ namespace CLI.MedPracManagement
                         }
                         appointments.Add(new Appointment(patientId, physicianId, appointmentDate));
                         break;
-                    case 4: //Prints out the user's information
+                    case 4: //Prints out the patient's information
                         ReviewPatient(patients);
                         Console.WriteLine();
                         break;
@@ -142,9 +145,63 @@ namespace CLI.MedPracManagement
                         Console.WriteLine();
                         break;
                     case 6:
-                        ReviewAppointment(appointments);
+                        ReviewAppointment(appointments, patients, physicians);
                         break;
-                    case 9: //Quits the program
+                    case 7:
+                        patients.ForEach(Console.WriteLine);
+                        Console.Write("Paitent to Delete (Id): ");
+                        //get a seletion from the user
+                        var patientSelection = Console.ReadLine();
+                        //make the selection an int
+                        if (int.TryParse(patientSelection ?? "0", out int patientIntSelection))
+                        {
+                            //get the blog to delete
+                            var patientToDelete = patients
+                                //dont consider null blogs
+                                .Where(p => p != null)
+                                //grab the first one that mathces the blog given id
+                                .FirstOrDefault(p => (p?.patientId ?? -1) == patientIntSelection);
+                            //remove it!
+                            patients.Remove(patientToDelete);
+                        }
+                        break;
+                    case 8:
+                        physicians.ForEach(Console.WriteLine);
+                        Console.Write("Physicians to Delete (Id): ");
+                        //get a seletion from the user
+                        var physicianSelection = Console.ReadLine();
+                        //make the selection an int
+                        if (int.TryParse(physicianSelection ?? "0", out int physicianIntSelection))
+                        {
+                            //get the blog to delete
+                            var physicianToDelete = physicians
+                                //dont consider null blogs
+                                .Where(p => p != null)
+                                //grab the first one that mathces the blog given id
+                                .FirstOrDefault(p => (p?.physicianId ?? -1) == physicianIntSelection);
+                            //remove it!
+                            physicians.Remove(physicianToDelete);
+                        }
+                        break;
+                    case 9:
+                        appointments.ForEach(a => Console.WriteLine(a.appointInfoCondensed(patients, physicians)));
+                        Console.Write("Appointments to Delete (Id): ");
+                        //get a seletion from the user
+                        var appointmentSelection = Console.ReadLine();
+                        //make the selection an int
+                        if (int.TryParse(appointmentSelection ?? "0", out int appointmentIntSelection))
+                        {
+                            //get the blog to delete
+                            var appointmentToDelete = appointments
+                                //dont consider null blogs
+                                .Where(p => p != null)
+                                //grab the first one that mathces the blog given id
+                                .FirstOrDefault(a => a?.GetId() == appointmentIntSelection);
+                            //remove it!
+                            appointments.Remove(appointmentToDelete);
+                        }
+                        break;
+                    case 10: //Quits the program
                         Console.WriteLine("Quitting Program...");
                         return;
                     default: //Tells the user that the value that they inputted is not valid.
@@ -195,17 +252,17 @@ namespace CLI.MedPracManagement
             }
         }
 
-        public static void ReviewAppointment(List<Appointment> appointments)
+        public static void ReviewAppointment(List<Appointment> appointments, List<Patient> patients, List<Physician> physicians)
         {
-            Console.Write("Enter appointment ID: "); //Prompts the user for the patient id first
+            Console.Write("Enter appointment ID: ");
             string? inputId = Console.ReadLine();
 
-            if (int.TryParse(inputId, out int id)) //Tries to convert string to an int if successful it stores the int value in id
+            if (int.TryParse(inputId, out int id))
             {
-                Appointment? found = appointments.FirstOrDefault(p => p.GetId() == id); //Uses a LINQ method to search through the list and looks for the first patient to match the inputted id
+                Appointment? found = appointments.FirstOrDefault(a => a.GetId() == id);
 
-                if (found != null) //If patient was found then it prints the patient info
-                    found.PrintInfo();
+                if (found != null)
+                    found.PrintInfo(patients, physicians); // pass in both lists
                 else
                     Console.WriteLine($"Appointment with id {id} was not found.");
             }
@@ -214,5 +271,6 @@ namespace CLI.MedPracManagement
                 Console.WriteLine("Invalid ID. Please enter a number!");
             }
         }
+
     }
 }

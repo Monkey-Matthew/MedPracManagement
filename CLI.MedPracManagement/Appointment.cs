@@ -6,13 +6,13 @@ namespace CLI.MedPracManagement
 {
 	public class Appointment
 	{
-		private static int nextId = 100;
+		private static int nextId = 100; //Keeps track of the next appointment id
 		private int appointId;
 		private int patientId;
 		private int physicianId;
 		private DateTime appointmentDate;
 
-		public Appointment(int patientId, int physicianId, DateTime appointmentDate)
+		public Appointment(int patientId, int physicianId, DateTime appointmentDate) //Appointment Constructor
 		{
 			this.patientId = patientId;
 			this.physicianId = physicianId;
@@ -25,7 +25,7 @@ namespace CLI.MedPracManagement
             return appointId;
         }
 
-        public void PrintInfo(List<Patient> patients, List<Physician> physicians)
+        public void PrintInfo(List<Patient> patients, List<Physician> physicians) //Prints the info of the appointment
         {
             Console.WriteLine();
             Console.WriteLine("Appointment Info<>");
@@ -33,7 +33,7 @@ namespace CLI.MedPracManagement
             Console.WriteLine("Appointment Date: " + appointmentDate.ToString("MM/dd/yyyy"));
             Console.WriteLine("Appointment Time: " + appointmentDate.ToString("hh:mm tt"));
 
-            // Lookup patient
+            //Grabs the patient information
             Patient? patient = patients.FirstOrDefault(p => p.GetId() == patientId);
             if (patient != null)
                 Console.WriteLine("Patient Name: " + patient.GetName());
@@ -42,7 +42,7 @@ namespace CLI.MedPracManagement
 
             Console.WriteLine("Patient Id: " + patientId);
 
-            // Lookup physician
+            //Grabs the physician information
             Physician? physician = physicians.FirstOrDefault(d => d.GetId() == physicianId);
             if (physician != null)
                 Console.WriteLine("Physician Name: " + physician.GetName());
@@ -53,16 +53,16 @@ namespace CLI.MedPracManagement
         }
 
 
-        public DateTime GetDate()
+        public DateTime GetDate() //Returns appointment date
 		{
 			return appointmentDate;
 		}
-        public int GetPhysicianId()
+        public int GetPhysicianId() //Returns the physician's id
         {
             return physicianId;
         }
 
-        public string appointInfoCondensed(List<Patient> patients, List<Physician> physicians)
+        public string appointInfoCondensed(List<Patient> patients, List<Physician> physicians) //Prints out the condensed appointment information
         {
             string patientName = patients.FirstOrDefault(p => p.GetId() == patientId)?.GetName() ?? "Unknown";
             string physicianName = physicians.FirstOrDefault(d => d.GetId() == physicianId)?.GetName() ?? "Unknown";
@@ -70,7 +70,7 @@ namespace CLI.MedPracManagement
             return $"ID:{appointId}. Patient: {patientName} | Physician: {physicianName} | Date: {appointmentDate:MM/dd/yyyy hh:mm tt}";
         }
 
-        public void UpdatePatient(List<Patient> patients)
+        public void UpdatePatient(List<Patient> patients) //Method that allows the user to update the patient in the appointment
         {
             patients.ForEach(Console.WriteLine);
             Console.Write("Enter new patient ID: ");
@@ -86,7 +86,7 @@ namespace CLI.MedPracManagement
             else Console.WriteLine("Invalid input. Update canceled.");
         }
 
-        public void UpdatePhysician(List<Physician> physicians, List<Appointment> allAppointments)
+        public void UpdatePhysician(List<Physician> physicians, List<Appointment> allAppointments) //Method that allows the user to update the physician in the appointment
         {
             physicians.ForEach(Console.WriteLine);
             Console.Write("Enter new physician ID: ");
@@ -112,7 +112,7 @@ namespace CLI.MedPracManagement
             else Console.WriteLine("Invalid input. Update canceled.");
         }
 
-        public void UpdateDate(List<Appointment> allAppointments)
+        public void UpdateDate(List<Appointment> allAppointments) //Method that allows the user to change the appointment Date and Time
         {
             Console.Write("Enter new appointment date and time (MM/dd/yyyy hh:mm tt): ");
             if (DateTime.TryParse(Console.ReadLine(), out DateTime newDate))

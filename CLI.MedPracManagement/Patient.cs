@@ -52,9 +52,9 @@ namespace CLI.MedPracManagement
             string? diagnosesInput = Console.ReadLine();
             if (!string.IsNullOrEmpty(diagnosesInput)) //If diagnoses input is not null, it adds the splits the string and adds it to the patient diagnoses List.
             {
-                string[] diagnoses = diagnosesInput.Split(",");
+                string[] diagnoses = diagnosesInput.Split(","); //Splits each diagnose the user inputted and puts it into the diagnoses list
 
-                foreach (string diagnose in diagnoses)
+                foreach (string diagnose in diagnoses) //Adds each diagnose the user added to the patientDiagnoses list
                 {
                     patientDiagnoses.Add(diagnose);
                 }
@@ -69,9 +69,9 @@ namespace CLI.MedPracManagement
             string? prescriptionsInput = Console.ReadLine();
             if (!string.IsNullOrEmpty(prescriptionsInput)) //If prescriptions input is not null, it adds the splits the string and adds it to the patient prescriptions List.
             {
-                string[] prescriptions = prescriptionsInput.Split(",");
+                string[] prescriptions = prescriptionsInput.Split(","); //Splits each prescription the user inputted and puts it into the prescriptions list
 
-                foreach (string prescription in prescriptions)
+                foreach (string prescription in prescriptions) //Adds each prescription to the patientPrescriptions list
                 {
                     patientPrescriptions.Add(prescription);
                 }
@@ -155,78 +155,78 @@ namespace CLI.MedPracManagement
             return "Prefer not to say";
         }
 
-        public override string ToString()
+        public override string ToString() //Prints out this when program calls patients.ForEach(WriteLine)
         {
             return $"{patientId}. {name}";
 
         }
 
-        public string? GetName()
+        public string? GetName() //Method to return name
         {
             return name;
         }
 
-        public void UpdateName()
+        public void UpdateName() //Method that lets the user update the patient's name
         {
             Console.Write("Enter new patient name: ");
             name = Console.ReadLine();
         }
 
-        public void UpdateAddress()
+        public void UpdateAddress() //Method that lets the user update the patient's address
         {
             Console.Write("Enter new patient address: ");
             address = Console.ReadLine();
         }
 
-        public void UpdateBirthdate()
+        public void UpdateBirthdate() //Method that lets the user update the patient's birthdate
         {
             Console.Write("Enter new patient birthdate (yyyy-mm-dd): ");
-            while (DateTime.TryParse(Console.ReadLine(), out birthdate) == false)
+            while (DateTime.TryParse(Console.ReadLine(), out birthdate) == false) //While loop that doesn't stop until birthdate is a valid date
             {
                 Console.WriteLine("Invalid format! Please Try Again");
                 Console.Write("Enter new patient birthdate (yyyy-mm-dd): ");
             }
         }
 
-        public void UpdateRace()
+        public void UpdateRace() //Method that lets the user update the patient's race
         {
-            race.Clear();
+            race.Clear(); //Empties the race lists
             displayRaceOptions();
             string? raceChoice = Console.ReadLine();
 
-            if (!string.IsNullOrEmpty(raceChoice))
+            if (!string.IsNullOrEmpty(raceChoice)) //If the user inputs something it splits it up each int by the seperation of a comma and then adds it to the words list
             {
                 int[] words = raceChoice.Split(',')
                                         .Select(s => int.Parse(s.Trim()) - 1)
                                         .Where(i => i >= 0 && i < raceOptions.Count)
                                         .ToArray();
 
-                foreach (int index in words)
+                foreach (int index in words) //Adds each race option the user selected to the race list
                 {
                     race.Add(raceOptions[index]);
                 }
             }
         }
 
-        public void UpdateGender()
+        public void UpdateGender() //Method that lets the user update the patient's gender
         {
             displayGenderOptions();
             gender = chooseGender();
         }
 
-        public void UpdateDiagnoses()
+        public void UpdateDiagnoses() //Method that lets the user update the patient's diagnoses
         {
-            patientDiagnoses.Clear();
+            patientDiagnoses.Clear(); //Empties the patientDiagnoses list
             Console.WriteLine("Enter updated diagnoses (if none enter 'none', otherwise separate with commas): ");
             string? diagnosesInput = Console.ReadLine();
 
-            if (!string.IsNullOrEmpty(diagnosesInput))
+            if (!string.IsNullOrEmpty(diagnosesInput)) //If the user inputted anything 
             {
-                if (diagnosesInput.Trim().ToLower() == "none")
+                if (diagnosesInput.Trim().ToLower() == "none") 
                 {
                     patientDiagnoses.Add("None");
                 }
-                else
+                else //Splits each diagnose up and adds them to the patientDiagnoses list 
                 {
                     string[] diagnoses = diagnosesInput.Split(",");
                     foreach (string diagnose in diagnoses)
@@ -237,19 +237,19 @@ namespace CLI.MedPracManagement
             }
         }
 
-        public void UpdatePrescriptions()
+        public void UpdatePrescriptions() //Method that lets the user update the patient's prescriptions
         {
-            patientPrescriptions.Clear();
+            patientPrescriptions.Clear(); //Empties the patientPrescriptions list
             Console.WriteLine("Enter updated prescriptions (if none enter 'none', otherwise separate with commas): ");
             string? prescriptionsInput = Console.ReadLine();
 
-            if (!string.IsNullOrEmpty(prescriptionsInput))
+            if (!string.IsNullOrEmpty(prescriptionsInput)) //If the user inputted anything
             {
                 if (prescriptionsInput.Trim().ToLower() == "none")
                 {
                     patientPrescriptions.Add("None");
                 }
-                else
+                else //Splits each diagnose up and adds them to the patientPrescriptions list
                 {
                     string[] prescriptions = prescriptionsInput.Split(",");
                     foreach (string prescription in prescriptions)

@@ -6,16 +6,16 @@ namespace CLI.MedPracManagement
 {
     public class Physician
     {
-        private static int nextId = 1000001;
+        private static int nextId = 1000001; //Keeps track of the next physician's id
         public int physicianId;
         private string? physicianName;
         private string? physicianNumber;
-        private DateTime graduationDate;
-        private List<string> physicianSpecializations = new List<string>();
+        private DateTime graduationDate; 
+        private List<string> physicianSpecializations = new List<string>(); //List that stores all the physician's specializations
 
-        public Physician()
+        public Physician() //Physician Constructor
         {
-            physicianId = nextId++;
+            physicianId = nextId++; //Sets for current physician and icnrements for the next physician
             Console.Write("What is the physician's name?: ");
             string? name = Console.ReadLine();
             physicianName = name;
@@ -24,7 +24,7 @@ namespace CLI.MedPracManagement
             physicianNumber = phyNumber;
             Console.Write("What was the physician's graduation date?: ");
             DateTime gradDate;
-            while(!DateTime.TryParse(Console.ReadLine(), out gradDate))
+            while(!DateTime.TryParse(Console.ReadLine(), out gradDate)) //While date is not in valid format
             {
                 Console.WriteLine("Invalid format. Please enter date as yyyy-MM-dd.");
             }
@@ -32,11 +32,11 @@ namespace CLI.MedPracManagement
             Console.WriteLine("What are the physician's specializations? (Seperate each specialization with a comma)");
             Console.Write("Specializations: ");
             string? specializationsInput = Console.ReadLine();
-            if(!string.IsNullOrEmpty(specializationsInput)) //If diagnoses input is not null, it adds the splits the string and adds it to the patient diagnoses List.
+            if(!string.IsNullOrEmpty(specializationsInput)) //If specializations input is not null, it adds the splits the string and adds it to the physicians specializations List.
             {
                 string[] specializations = specializationsInput.Split(",");
 
-                foreach(string specialization in specializations)
+                foreach(string specialization in specializations) //Adds each specialization in the physicianSpecializations list
                 {
                     physicianSpecializations.Add(specialization);
                 }
@@ -56,7 +56,7 @@ namespace CLI.MedPracManagement
         }
 
 
-        public void ReadPhysician()
+        public void ReadPhysician() //Method that prints out the physician's information
         {
             Console.WriteLine("Physician's Name: " + physicianName);
             Console.WriteLine("Physician's Number: " + physicianNumber);
@@ -68,24 +68,23 @@ namespace CLI.MedPracManagement
             }
         }
 
-        public override string ToString()
+        public override string ToString() //Prints this out when physicians.ForEach(Console.WriteLine()) is called
         {
             return $"{physicianId}. {physicianName}";
 
         }
 
-        public string GetName()
+        public string GetName() //Returns the physician's name
         {
             return physicianName;
 
         }
 
-        // --- Update Methods ---
-        public void UpdateName()
+        public void UpdateName() //Method that allows the user to update the physician's name
         {
             Console.Write("Enter new physician name: ");
             string? input = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(input))
+            if (!string.IsNullOrWhiteSpace(input)) //If the input is not empty or spaces
             {
                 physicianName = input;
                 Console.WriteLine("Physician name updated!");
@@ -96,7 +95,7 @@ namespace CLI.MedPracManagement
             }
         }
 
-        public void UpdateNumber()
+        public void UpdateNumber() //Method that allows the user to update the physician's number
         {
             Console.Write("Enter new physician number: ");
             string? input = Console.ReadLine();
@@ -111,7 +110,7 @@ namespace CLI.MedPracManagement
             }
         }
 
-        public void UpdateGraduationDate()
+        public void UpdateGraduationDate() //Method that allows the user to update the physician's graduation date
         {
             Console.Write("Enter new graduation date (yyyy-MM-dd): ");
             string? input = Console.ReadLine();
@@ -126,7 +125,7 @@ namespace CLI.MedPracManagement
             }
         }
 
-        public void UpdateSpecializations()
+        public void UpdateSpecializations() //Method that lets the user update the physician's specializations
         {
             Console.Write("Enter new specializations (comma-separated, or 'none'): ");
             string? input = Console.ReadLine();
